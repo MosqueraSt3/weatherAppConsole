@@ -1,4 +1,4 @@
-const { leerInput, inquirerMenu, pausa } = require("./helpers/inquirer")
+const { leerInput, inquirerMenu, pausa, listarLugares } = require("./helpers/inquirer")
 const Busquedas = require('./models/busquedas')
 
 const main = async () => {
@@ -10,16 +10,21 @@ const main = async () => {
         switch (opt) {
             case 1:
                 // Mostrar Mensaje
-                const lugar = await leerInput('Ciudad:')
-                console.log(lugar)
+                const termino = await leerInput('Ciudad:')
 
                 // Buscar Lugares
+                const lugares = await busquedas.ciudad( termino )
+
+                //Seleccionar el lugar 
+                const id = await listarLugares( lugares )
+                const lugarSel = lugares.find( l => l.id === id )
+                console.log({ id })
 
 
                 console.log(`\nInformacion de la ciudad\n`.green)
-                console.log(`ciudad:`)
-                console.log(`Lat:`)
-                console.log(`Lng:`)
+                console.log(`ciudad: ${lugarSel.nombre}`)
+                console.log(`Lat: ${lugarSel.lat}`)
+                console.log(`Lng: ${lugarSel.lng}`)
                 console.log(`Temperatura:`)
                 console.log(`Minima:`)
                 console.log(`Maxima:`)
